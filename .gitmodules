@@ -1,0 +1,6 @@
+[submodule "Raphaël"]
+	path = Raphaël
+	url = https://github.com/DmitryBaranovskiy/raphael.git
+[submodule "raphael"]
+	path = raphael
+	url = https://github.com/DmitryBaranovskiy/raphael.git
