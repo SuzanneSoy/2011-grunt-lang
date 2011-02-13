@@ -64,3 +64,8 @@ function init() {
 }
 
 new Event.observe(window, 'load', init);
+
+/* Modèle
+[World]<>-[BlockDef|name,inputPorts,outputPorts]-[Graph]
+Graph = ??? des ports et des blocs…
+*/
