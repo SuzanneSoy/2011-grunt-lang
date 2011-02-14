@@ -16,13 +16,22 @@ Raphael.fn.marginText = function (x,y,text,margin) {
 	return t;
 };
 
+function floorCeil(a,b,c,d) {
+	var x1 = a;
+	var y1 = b;
+	var x2 = a+c;
+	var y2 = b+d;
+	
+}
+
 Raphael.fn.boundingRect = function(margin) {
 	margin = +margin || 0;
 	var set = this.set();
 	set.push.apply(set,arguments);
 	var size = set.getBBox();
 	var rect = this.rect(size.x-margin, size.y-margin, size.width+2*margin, size.height+2*margin);
-	rect.set = set.push(rect);
+	/* Pour des bords nets : rect.node.style.shapeRendering = "crispEdges"; */
+	rect.set = this.set().push(rect,set);
 	return rect;
 };
 
@@ -37,9 +46,11 @@ function Block(name) {
 		var start = function () {
 			this.oldDx = 0;
 			this.oldDy = 0;
-			this.attr({opacity: 0.5});
+			this.firstMove = true;
+			this.toFront();
 		};
 		var move = function (dx, dy) {
+			if (this.firstMove) { this.firstMove = false; this.attr({opacity: 0.5}); }
 			this.translate(dx-this.oldDx, dy-this.oldDy);
 			this.oldDx = dx;
 			this.oldDy = dy;
