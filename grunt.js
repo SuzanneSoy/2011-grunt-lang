@@ -79,4 +79,27 @@ new Event.observe(window, 'load', init);
 /* Modèle
 [World]<>-[BlockDef|name,inputPorts,outputPorts]-[Graph]
 Graph = ??? des ports et des blocs…
+
+Algorithme d'évaluation :
+
+Pour instancier une définition de bloc :
+- Instancier le bloc à partir de sa définition
+  - Pour chaque sous-bloc de la définition, on a dans l'instance un slot d'instance pour le sous-bloc (vide au départ).
+  - Pour chaque port de sortie de chaque sous-bloc, on a dans l'instance un slot de port (vide au départ) (peut être stocké directement dans les ports de sortie de l'instance).
+  - Pour chaque port d'entrée du bloc, on a dans l'instance un slot de port (vide au départ).
+
+Pour évaluer la valeur d'un port de sortie d'un bloc (inst) :
+- Chercher quel sous-bloc & port est connecté à ce port de sortie
+- Si le slot de ce sous-bloc est vide, instancier le sous-bloc et stocker l'isntance dans le slot
+- Si le slot de port de sortie de ce sous-bloc est vide :
+  - Calculer la valeur du port de sortie souhaité de ce sous-bloc
+  - Stocker la valeur ainsi calculée dans le slot de port de sortie qu'on cherchait au départ
+- Renvoyer la valeur ainsi calculée.
+
+Pour évaluer la valeur d'un port d'entrée d'un bloc (inst) :
+- Dans l'instance de bloc contenant celle-ci,
+  - Chercher le sous-bloc / le port d'entrée connecté au notre.
+  - Calculer cette valeur
+    - Soit en récursion pour calculer le port d'entrée du parent
+    - Soit en récursion pour calculer le port de sortie du bloc voisin au notre.
 */
